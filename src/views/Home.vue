@@ -66,7 +66,7 @@
 
 <script>
 import http from "@/utils/http";
-import { reactive } from "@vue/composition-api";
+import { onMounted, onUnmounted, reactive } from "@vue/composition-api";
 export default {
   name: "Home",
   components: {
@@ -89,6 +89,15 @@ export default {
 
     }
 
+    onMounted(() => {
+
+    })
+    onUpdated(() => {
+
+    })
+    onUnmounted(() => {
+      
+    })
 
     return {
       test,
