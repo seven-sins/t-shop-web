@@ -1,92 +1,125 @@
 <template>
-  <el-container>
-  <el-header>
-    <span class="header-title">商城管理后台</span>
-    <span class="header-user">管理员</span>
-  </el-header>
-  <el-container>
-    <el-aside width="200px">
-      <el-menu
-        default-active="2"
-        class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose">
-        <el-submenu index="1">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>导航一</span>
-          </template>
-          <el-menu-item-group>
-            <template slot="title">分组一</template>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-          </el-submenu>
-        </el-submenu>
-        <el-menu-item index="2">
-          <i class="el-icon-menu"></i>
-          <span slot="title">导航二</span>
-        </el-menu-item>
-        <el-menu-item index="3" disabled>
-          <i class="el-icon-document"></i>
-          <span slot="title">导航三</span>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
-          <span slot="title">导航四</span>
-        </el-menu-item>
-      </el-menu>
-    </el-aside>
-    <el-main>Main</el-main>
-  </el-container>
-</el-container>
+  <a-layout id="components-layout-demo-fixed-sider">
+    <a-layout-sider :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }">
+      <div class="logo"></div>
+      <a-menu theme="dark" :default-selected-keys="['1']" mode="inline">
+        <a-menu-item key="1">
+          <a-icon type="pie-chart" />
+          <span>Option 1</span>
+        </a-menu-item>
+        <a-menu-item key="2">
+          <a-icon type="desktop" />
+          <span>Option 2</span>
+        </a-menu-item>
+        <a-sub-menu key="sub1">
+          <span slot="title"><a-icon type="user" /><span>User</span></span>
+          <a-menu-item key="3">
+            Tom
+          </a-menu-item>
+          <a-menu-item key="4">
+            Bill
+          </a-menu-item>
+          <a-menu-item key="5">
+            Alex
+          </a-menu-item>
+        </a-sub-menu>
+        <a-sub-menu key="sub2">
+          <span slot="title"><a-icon type="team" /><span>Team</span></span>
+          <a-menu-item key="6">
+            Team 1
+          </a-menu-item>
+          <a-menu-item key="8">
+            Team 2
+          </a-menu-item>
+        </a-sub-menu>
+        <a-menu-item key="9">
+          <a-icon type="file" />
+          <span>File</span>
+        </a-menu-item>
+      </a-menu>
+    </a-layout-sider>
+    <a-layout :style="{ marginLeft: '200px' }">
+      <a-layout-header :style="{ background: '#fff', padding: 0 }" >
+        <div class="home-header">
+          <span class="left">管理后台</span>
+          <span class="right">管理员</span>
+        </div>
+      </a-layout-header>
+      <a-layout-content :style="{ margin: '0 16px 0', overflow: 'initial' }">
+        <a-breadcrumb style="margin: 16px 0">
+          <a-breadcrumb-item>User</a-breadcrumb-item>
+          <a-breadcrumb-item>Bill</a-breadcrumb-item>
+        </a-breadcrumb>
+
+        <div class="home-content">
+          <div class="home-content-center">
+
+            <router-view></router-view>
+
+          </div>
+        </div>
+      </a-layout-content>
+     
+    </a-layout>
+  </a-layout>
 </template>
 
 <script>
 import http from "@/utils/http";
-
+import { reactive } from "@vue/composition-api";
 export default {
   name: "Home",
   components: {
     
   }, 
   setup(props, context){
+    const panes = reactive([
+      { title: 'Tab 1', content: 'Content of Tab 1', key: '1' },
+      { title: 'Tab 2', content: 'Content of Tab 2', key: '2' },
+      { title: 'Tab 3', content: 'Content of Tab 3', key: '3', closable: false },
+    ]);
+
     const test = () => {
       http.post("/rest/admin/gbShop");
     }
+    const handleOpen = () => {
+
+    }
+    const handleClose = () => {
+
+    }
+
 
     return {
-      test
+      test,
+      handleOpen,
+      handleClose,
+      panes
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 #app{
-  .el-header{
-    background: #3fa1f0 !important; color: #fff; box-sizing: border-box; padding:0; position:relative;
-    .header-title{
-      margin: 13px 0 0 13px;padding:0; display: inline-block;
+  .ant-layout{
+    height: 100%;
+  }
+  .home-header{
+    background:#001529; padding: 0 0 0 13px; position: relative; color: #fff; border-left: 1px solid #ddd;
+    .left{
+      font-weight: bold; 
     }
-    .header-user{
-      position: absolute; width: 166px; right: 13px; top: 13px; display: inline-block; text-align: right;
+    .right{
+      display: inline-block; width: 200px; position: absolute; right: 13px; text-align: right; line-height: 37px;
+    }
+  }
+  .home-content{
+    height: 100%; margin-top: -71px; padding-top: 71px; box-sizing: border-box;
+    .home-content-center{
+      height: 100%; background: #fff;
     }
   }
 
-  .el-container{
-    height: 100%;
-    .el-aside{
-      border-right: 1px solid #ddd;
-    }
-    .el-main{
-      padding: 13px;
-    }
-  }
+  
 }
 </style>

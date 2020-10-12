@@ -3,12 +3,12 @@ import VueCompositionApi from "@vue/composition-api";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
+import Antd from "ant-design-vue";
+import "ant-design-vue/dist/antd.css";
 import "./styles/style-fix.scss";
 import "./styles/common.scss";
 
-Vue.use(ElementUI);
+Vue.use(Antd);
 Vue.use(VueCompositionApi);
 Vue.config.productionTip = false;
 
