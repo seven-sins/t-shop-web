@@ -13,6 +13,13 @@
         tr, td{
             line-height: 1;
         }
+        .row-operation-btn{
+            color: blue; padding: 0 5px;
+            &:hover{
+                text-decoration: underline;
+                color: red; cursor: pointer;
+            }
+        }
     }
     .ant-pagination, .ant-table-pagination{
         position: absolute; bottom: 6px; right: 23px;

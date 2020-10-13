@@ -1,34 +1,8 @@
 <template>
-  <a-table :columns="columns" :data-source="data" :pagination="page" @change="changePage" bordered>
-    <template
-      v-for="col in ['name', 'age', 'address']"
-      :slot="col"
-      slot-scope="text, record, index"
-    >
-      <div :key="col">
-        <a-input
-          v-if="record.editable"
-          style="margin: -5px 0"
-          :value="text"
-          @change="e => handleChange(e.target.value, record.key, col)"
-        />
-        <template v-else>
-          {{ text }}
-        </template>
-      </div>
-    </template>
+  <a-table :columns="columns" :dataSource="data" :pagination="page" @change="changePage" bordered>
     <template slot="operation" slot-scope="text, record, index">
-      <div class="editable-row-operations">
-        <span v-if="record.editable">
-          <a @click="() => save(record.key)">Save</a>
-          <a-popconfirm title="Sure to cancel?" @confirm="() => cancel(record.key)">
-            <a>Cancel</a>
-          </a-popconfirm>
-        </span>
-        <span v-else>
-          <a>Edit</a>
-        </span>
-      </div>
+        <span class="row-operation-btn" @click="() => edit(record)">编辑</span>
+        <span class="row-operation-btn" @click="() => del(record)">删除</span>
     </template>
   </a-table>
 </template>
@@ -93,16 +67,17 @@ export default {
             address: `London Park no. ${i}`,
         });
     }
-    console.log(data);
+
+    // console.log(data);
 
     const test = () => {
       http.post("/rest/admin/gbShop");
     }
-    const handleOpen = () => {
-
+    const edit = (record) => {
+        console.log(record)
     }
-    const handleClose = () => {
-
+    const del = (record) => {
+        console.log(record)
     }
     const handleChange = () => {
 
@@ -123,8 +98,8 @@ export default {
       columns,
       page,
       data,
-      handleOpen,
-      handleClose,
+      edit,
+      del,
       handleChange,
       changePage
     }
