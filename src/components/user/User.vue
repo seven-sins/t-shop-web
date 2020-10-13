@@ -68,8 +68,6 @@ export default {
         });
     }
 
-    // console.log(data);
-
     const test = () => {
       http.post("/rest/admin/gbShop");
     }

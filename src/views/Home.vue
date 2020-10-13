@@ -46,10 +46,9 @@
         </div>
       </a-layout-header>
       <a-layout-content :style="{ margin: '0 16px 0', overflow: 'initial' }">
-        <a-breadcrumb style="margin: 16px 0">
-          <a-breadcrumb-item>User</a-breadcrumb-item>
-          <a-breadcrumb-item>Bill</a-breadcrumb-item>
-        </a-breadcrumb>
+        <span class="home-nav">
+          {{ nav }}
+        </span>
 
         <div class="home-content">
           <div class="home-content-center">
@@ -79,6 +78,8 @@ export default {
       { title: 'Tab 3', content: 'Content of Tab 3', key: '3', closable: false },
     ]);
 
+    context.parent.$store.commit("setNav", "User / James")
+
     const test = () => {
       http.post("/rest/admin/gbShop");
     }
@@ -98,9 +99,9 @@ export default {
     })
 
     return {
-      test,
       handleOpen,
-      handleClose
+      handleClose,
+      nav: context.parent.$store.getters.getNav
     }
   }
 };
@@ -118,6 +119,9 @@ export default {
     .right{
       display: inline-block; width: 200px; position: absolute; right: 13px; text-align: right; line-height: 37px;
     }
+  }
+  .home-nav{
+    display: inline-block; line-height: 51px;
   }
   .home-content{
     height: 100%; margin-top: -71px; padding-top: 71px; box-sizing: border-box;

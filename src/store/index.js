@@ -4,8 +4,21 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+  state: {
+    nav: ""
+  },
+  getters: {
+    getNav: state => state.nav
+  },
+  mutations: {
+    setNav(state, nav){
+      state.nav = nav;
+    }
+  },
+  actions: {
+ 
+  },
+  modules: {
+    
+  }
 });
