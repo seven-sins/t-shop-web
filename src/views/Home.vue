@@ -2,25 +2,18 @@
   <a-layout id="components-layout-demo-fixed-sider">
     <a-layout-sider :style="{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }">
       <div class="logo"></div>
-      <a-menu theme="dark" :default-selected-keys="['1']" mode="inline">
-        <a-menu-item key="1">
-          <a-icon type="pie-chart" />
-          <span>Option 1</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <a-icon type="desktop" />
-          <span>Option 2</span>
-        </a-menu-item>
+      <a-menu theme="dark" mode="inline">
+      
         <a-sub-menu key="sub1">
-          <span slot="title"><a-icon type="user" /><span>User</span></span>
-          <a-menu-item key="3">
-            Tom
+          <span slot="title"><a-icon type="setting" /><span>系统设置</span></span>
+          <a-menu-item key="1" @click="handleClick({'menuName': '用户管理', 'url': '/user'})">
+            <a-icon type="user" />用户管理
           </a-menu-item>
-          <a-menu-item key="4">
-            Bill
+          <a-menu-item key="2" @click="handleClick({'menuName': '角色管理', 'url': '/user'})">
+            <a-icon type="block" />角色管理
           </a-menu-item>
-          <a-menu-item key="5">
-            Alex
+          <a-menu-item key="3" @click="handleClick({'menuName': '菜单管理', 'url': '/user'})">
+            <a-icon type="menu" />菜单管理
           </a-menu-item>
         </a-sub-menu>
         <a-sub-menu key="sub2">
@@ -65,7 +58,7 @@
 
 <script>
 import http from "@/utils/http";
-import { onMounted, onUnmounted, reactive } from "@vue/composition-api";
+import { onMounted, onUnmounted, reactive, computed } from "@vue/composition-api";
 export default {
   name: "Home",
   components: {
@@ -77,11 +70,17 @@ export default {
       { title: 'Tab 2', content: 'Content of Tab 2', key: '2' },
       { title: 'Tab 3', content: 'Content of Tab 3', key: '3', closable: false },
     ]);
-
-    context.parent.$store.commit("setNav", "User / James")
+    let nav = computed(() => {
+      return context.parent.$store.getters.getNav;
+    });
 
     const test = () => {
       http.post("/rest/admin/gbShop");
+    }
+    const handleClick = item => {
+      console.log(item);
+      console.log(context);
+      context.parent.$store.commit("setNav", item.menuName)
     }
     const handleOpen = () => {
 
@@ -91,7 +90,7 @@ export default {
     }
 
     onMounted(() => {
-
+      
     })
 
     onUnmounted(() => {
@@ -101,7 +100,8 @@ export default {
     return {
       handleOpen,
       handleClose,
-      nav: context.parent.$store.getters.getNav
+      nav, 
+      handleClick
     }
   }
 };
