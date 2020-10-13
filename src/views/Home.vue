@@ -92,9 +92,7 @@ export default {
     onMounted(() => {
 
     })
-    onUpdated(() => {
 
-    })
     onUnmounted(() => {
       
     })
@@ -102,8 +100,7 @@ export default {
     return {
       test,
       handleOpen,
-      handleClose,
-      panes
+      handleClose
     }
   }
 };

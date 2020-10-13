@@ -1,20 +1,23 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Home from "@/views/Home.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: () =>
-      import("../views/About.vue")
+    component: Home,
+    children: [
+      {
+        path: "/about",
+        component: resove => require(["@/views/About.vue"], resove)
+      },
+      {
+        path: "/user",
+        component: resove => require(["@/components/user/User.vue"], resove)
+      }
+    ]
   }
 ];
 
