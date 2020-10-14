@@ -12,7 +12,7 @@
           <a-menu-item key="2" @click="handleClick({'menuName': '系统设置 / 角色管理', 'url': '/role'})">
             <a-icon type="block" />角色管理
           </a-menu-item>
-          <a-menu-item key="3" @click="handleClick({'menuName': '系统设置 / 菜单管理', 'url': '/menu'})">
+          <a-menu-item key="3" @click="handleClick({'menuName': '系统设置 / 菜单管理', 'url': '/user'})">
             <a-icon type="menu" />菜单管理
           </a-menu-item>
         </a-sub-menu>
