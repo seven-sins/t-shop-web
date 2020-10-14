@@ -75,7 +75,6 @@ export default {
       http.post("/rest/admin/gbShop");
     }
     const handleClick = item => {
-      console.log(item);
       context.parent.$store.commit("setNav", item.menuName);
       context.parent.$router.push(item.url);
     }
