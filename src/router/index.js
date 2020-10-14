@@ -16,6 +16,10 @@ const routes = [
       {
         path: "/user",
         component: resove => require(["@/components/user/User.vue"], resove)
+      },
+      {
+        path: "/role",
+        component: resove => require(["@/components/role/Role.vue"], resove)
       }
     ]
   }

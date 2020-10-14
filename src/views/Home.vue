@@ -6,13 +6,13 @@
       
         <a-sub-menu key="sub1">
           <span slot="title"><a-icon type="setting" /><span>系统设置</span></span>
-          <a-menu-item key="1" @click="handleClick({'menuName': '用户管理', 'url': '/user'})">
+          <a-menu-item key="1" @click="handleClick({'menuName': '系统设置 / 用户管理', 'url': '/user'})">
             <a-icon type="user" />用户管理
           </a-menu-item>
-          <a-menu-item key="2" @click="handleClick({'menuName': '角色管理', 'url': '/user'})">
+          <a-menu-item key="2" @click="handleClick({'menuName': '系统设置 / 角色管理', 'url': '/role'})">
             <a-icon type="block" />角色管理
           </a-menu-item>
-          <a-menu-item key="3" @click="handleClick({'menuName': '菜单管理', 'url': '/user'})">
+          <a-menu-item key="3" @click="handleClick({'menuName': '系统设置 / 菜单管理', 'url': '/menu'})">
             <a-icon type="menu" />菜单管理
           </a-menu-item>
         </a-sub-menu>
@@ -25,10 +25,7 @@
             Team 2
           </a-menu-item>
         </a-sub-menu>
-        <a-menu-item key="9">
-          <a-icon type="file" />
-          <span>File</span>
-        </a-menu-item>
+        
       </a-menu>
     </a-layout-sider>
     <a-layout :style="{ marginLeft: '200px' }">
@@ -79,8 +76,8 @@ export default {
     }
     const handleClick = item => {
       console.log(item);
-      console.log(context);
-      context.parent.$store.commit("setNav", item.menuName)
+      context.parent.$store.commit("setNav", item.menuName);
+      context.parent.$router.push(item.url);
     }
     const handleOpen = () => {
 
