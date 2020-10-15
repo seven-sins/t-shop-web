@@ -30,5 +30,10 @@ const router = new VueRouter({
   base: "/",
   routes
 });
+// 修复重复点击某个路由控制台报错问题
+const routerPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error=> error)
+}
 
 export default router;

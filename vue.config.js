@@ -7,7 +7,7 @@ module.exports = {
     // 输出文件目录
     outputDir: 'dist',
     // eslint-loader是否在保存时检查
-    lintOnSave: true,
+    lintOnSave: false,
     // 放置静态资源的地方 (js/css/img/font/...)
     assetsDir: '',
     chainWebpack: () => {},

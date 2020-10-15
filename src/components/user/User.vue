@@ -4,17 +4,24 @@
         :columns="columns" 
         :dataSource="dataSource" 
         :pagination="page" 
+        :scroll="{ x: 1500 }"
         @change="changePage" bordered>
 
-        <template slot="operation" slot-scope="text, record, index">
+        <template slot="operation" slot-scope="text, record">
             <span class="row-operation-btn" @click="() => edit(record)">编辑</span>
             <span class="row-operation-btn" @click="() => del(record)">删除</span>
         </template>
     </a-table>
     
-    <a-modal :title="modalConf.title" v-model="modalConf.visible" :width="800" :height="800" cancelText="取消" okText="确定"
-             :maskClosable="false" destroyOnClose @ok="handleOk" style="top:20px;" :footer="null">
-      <Edit ref="userEdit" @closeEdit="closeEdit"/>
+    <a-modal 
+        :title="modalConf.title" 
+        v-model="modalConf.visible" 
+        :width="800" 
+        :height="600"
+        :maskClosable="false" 
+        destroyOnClose 
+        @ok="handleOk" centered :footer="null">
+      <Edit ref="userEdit" :record="record" @closeEdit="closeEdit"/>
     </a-modal>
 
   </div>
@@ -35,30 +42,42 @@ export default {
             visible: false,
             title: "编辑"
         },
+        record: {},
         columns: [
             {
-                title: 'name',
-                dataIndex: 'name',
-                width: '25%',
-                scopedSlots: { customRender: 'name' },
+                title: '用户名',
+                dataIndex: 'userName',
+                width: 150
             },
             {
-                title: 'age',
-                dataIndex: 'age',
-                width: '15%',
-                scopedSlots: { customRender: 'age' },
+                title: '用户编码',
+                dataIndex: 'userCode',
+                width: 150
             },
             {
-                title: 'address',
-                dataIndex: 'address',
-                width: '40%',
-                scopedSlots: { customRender: 'address' },
+                title: '登录账号',
+                dataIndex: 'loginAccount',
+                width: 150
             },
             {
-                title: 'operation',
-                dataIndex: 'operation',
-                scopedSlots: { customRender: 'operation' },
+                title: '手机号',
+                dataIndex: 'phone',
+                width: 150
             },
+            {
+                title: '生日',
+                dataIndex: 'birthday',
+                width: 150
+            },
+            {
+                title: '性别',
+                dataIndex: 'sex',
+                width: 100
+            },
+            {
+                title: '是否系统用户',
+                dataIndex: 'isSysUser'
+            }
         ],
         dataSource: [],
         page: {
@@ -88,7 +107,7 @@ export default {
         for (let i = 0; i < 100; i++) {
             _this.dataSource.push({
                 key: i.toString(),
-                name: `James ${i}`,
+                userName: `James ${i}`,
                 age: 32,
                 address: `London Park no. ${i}`,
             });
@@ -96,10 +115,10 @@ export default {
     },
     methods: {
         closeEdit(args){
-            console.log(args);
+            this.modalConf.visible = false;
         },
         edit(record){
-            console.log(record);
+            this.record = record;
             this.modalConf.visible = true;
         },
         del(record){
