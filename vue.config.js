@@ -24,6 +24,7 @@ module.exports = {
     },
     // 是否为生产环境构建生成 source map？
     productionSourceMap: true,
+    runtimeCompiler: true,
     // css相关配置
     // CSS 相关选项
     css: {
