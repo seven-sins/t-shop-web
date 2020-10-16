@@ -2,15 +2,17 @@
   <div class="home-container">
     <Layout style="height: 100%;">
       <LayoutPanel class="layout-north" region="north" style="height:80px;">
-        <div class="main-header">
-          <div class="header-left">
-          </div>
-          <div class="header-right">
-          </div>
-        </div>
+        <div class="main-header"></div>
       </LayoutPanel>
       <LayoutPanel region="west" style="width:230px;">
-        <div class="main-left">West Region</div>
+        <div class="main-left">
+          <SideMenu
+            :data="menus"
+            :collapsed="collapsed"
+            @selectionChange="selection($event)"
+          >
+          </SideMenu>
+        </div>
       </LayoutPanel>
       <LayoutPanel region="center" style="height:100%">
         <div class="main-center">Center Region</div>
@@ -27,63 +29,45 @@ export default {
   components: {},
   data() {
     return {
-      title: "AppLayout",
-      width: 200,
       collapsed: false,
-      selectedMenu: null,
+      // selection: null,
       menus: [
         {
-          text: "Forms",
-          iconCls: "fa fa-wpforms",
+          text: "Item1",
+          iconCls: "icon-sum",
           state: "open",
           children: [
             {
-              text: "Form Element"
+              text: "Option1"
             },
             {
-              text: "Wizard"
+              text: "Option2"
             },
             {
-              text: "File Upload"
-            }
-          ]
-        },
-        {
-          text: "Mail",
-          iconCls: "fa fa-at",
-          selected: true,
-          children: [
-            {
-              text: "Inbox"
-            },
-            {
-              text: "Sent"
-            },
-            {
-              text: "Trash",
+              text: "Option3",
               children: [
                 {
-                  text: "Item1"
+                  text: "Option31"
                 },
                 {
-                  text: "Item2"
+                  text: "Option32"
                 }
               ]
             }
           ]
         },
         {
-          text: "Layout",
-          iconCls: "fa fa-table",
+          text: "Item2",
+          iconCls: "icon-more",
           children: [
             {
-              text: "Panel"
+              text: "Option4"
             },
             {
-              text: "Accordion"
+              text: "Option5"
             },
             {
-              text: "Tabs"
+              text: "Option6"
             }
           ]
         }
@@ -97,6 +81,10 @@ export default {
     },
     onItemClick(item) {
       this.selectedMenu = item;
+    },
+    selection(e){
+      console.log(e);
+      console.log(e.text);
     }
   }
 };
@@ -109,23 +97,24 @@ export default {
   background: #3ac9d6;
   height: 100%;
   box-sizing: border-box;
-  .header-left{
+  .header-left {
     width: 230px;
     height: 100%;
   }
 }
-.pannel-body{
-  box-sizing: border-box; border-color:#fff;
+.pannel-body {
+  box-sizing: border-box;
 }
 .main-left {
-  height: 100%;border: none;box-sizing: border-box;
+  height: 100%;
+  box-sizing: border-box;
+  
 }
 .main-body {
-  background: #ecf0f5;
   min-height: 400px;
   height: 100%;
 }
-.main-center{
+.main-center {
   height: 100%;
 }
 </style>

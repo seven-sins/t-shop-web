@@ -8,7 +8,6 @@
     }
     .ant-table{
         max-height: 90%;
-        // overflow: scroll;
         line-height: 1;
         tr, td{
             line-height: 1;
@@ -38,3 +37,85 @@
 .ant-modal-content{
     max-height: 100% !important; overflow: hidden;
 }
+.main-left{
+    .accordion {
+        border-color: #fff;
+    }
+}
+.layout-panel-north{
+    .panel-body{
+        border-color: #3ac9d6;
+    }
+}
+.layout-panel-center{
+    .panel-body{
+        border-color: #fff;
+    }
+}
+.layout-panel-west{
+    .panel-body{
+        border-color: #ddd;
+    }
+}
+.main-left {
+    height: 100%;
+    box-sizing: border-box;
+    .sidemenu .accordion .accordion-header {
+      background: #f5f5f5; border-bottom: 1px solid #ddd;
+      color: #b8c7ce;
+    }
+    .sidemenu .accordion .accordion-body {
+      background: #f6f9fa;
+      color: #8aa4af;
+    }
+    .sidemenu .accordion .accordion-header-selected {
+      background: #f5f5f5;
+    }
+    .sidemenu .tree-node-hover {
+      background: #ffe48d;
+      color: #fff;
+    }
+    .sidemenu .tree-node-selected {
+      
+      color: #fff;
+    }
+    .sidemenu .accordion-header .panel-tool {
+      display: none;
+    }
+    .sidemenu .accordion-header::after,
+    .sidemenu .tree-node-nonleaf::after {
+      display: inline-block;
+      vertical-align: top;
+      border-style: solid;
+      transform: rotate(45deg);
+      width: 4px;
+      height: 4px;
+      content: "";
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      margin-top: -3px;
+      border-width: 0 1px 1px 0;
+    }
+    .sidemenu .accordion-header-selected::after {
+      transform: rotate(-135deg);
+    }
+    .sidemenu .tree-node-nonleaf::after {
+      transform: rotate(-135deg);
+    }
+    .sidemenu .tree-node-nonleaf-collapsed::after {
+      transform: rotate(45deg);
+    }
+    .sidemenu-collapsed .accordion-header::after {
+      display: none;
+    }
+    .sidemenu-tooltip .accordion {
+      border-color: #cfe0e7;
+    }
+    .panel-title{
+        color: #333 !important;
+    }
+    .accordion-body{
+        background: #fff !important;
+    }
+  }
