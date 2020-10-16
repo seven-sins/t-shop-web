@@ -9,7 +9,7 @@
           <SideMenu
             :data="menus"
             :collapsed="collapsed"
-            @selectionChange="selection($event)"
+            @itemClick="onItemClick($event)"
           >
           </SideMenu>
         </div>
@@ -38,7 +38,8 @@ export default {
           state: "open",
           children: [
             {
-              text: "Option1"
+              text: "Option1",
+              url: "http://www.baidu.com",
             },
             {
               text: "Option2"
@@ -80,11 +81,7 @@ export default {
       this.width = this.collapsed ? 50 : 200;
     },
     onItemClick(item) {
-      this.selectedMenu = item;
-    },
-    selection(e){
-      console.log(e);
-      console.log(e.text);
+      console.log(item);
     }
   }
 };
