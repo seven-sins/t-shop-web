@@ -15,7 +15,9 @@
         </div>
       </LayoutPanel>
       <LayoutPanel region="center" style="height:100%">
-        <div class="main-center">Center Region</div>
+        <div class="main-center">
+          <router-view></router-view>
+        </div>
       </LayoutPanel>
     </Layout>
   </div>
@@ -30,15 +32,14 @@ export default {
   data() {
     return {
       collapsed: false,
-      // selection: null,
       menus: [
         {
-          text: "Item1",
-          iconCls: "icon-sum",
+          text: "系统设置",
+          iconCls: "fa fa-cog",
           state: "open",
           children: [
             {
-              text: "Option1",
+              text: "菜单配置",
               url: "http://www.baidu.com",
             },
             {
@@ -58,8 +59,8 @@ export default {
           ]
         },
         {
-          text: "Item2",
-          iconCls: "icon-more",
+          text: "用户管理",
+          iconCls: "fa fa-user",
           children: [
             {
               text: "Option4"

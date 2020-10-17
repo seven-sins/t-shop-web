@@ -1,15 +1,84 @@
 *{
     margin: 0; padding: 0;
     font-family: Avenir, Helvetica, Arial, sans-serif;
+    color: #666;
 }
 #app{
     height:100%;
 }
-html, body{ height: 100%; }
-.index-container{ height: 100%; }
+html, body{ height: 100%; min-width: 1300px; min-height: 500px;}
+.index-container{ 
+    height: 100%; background: #ddd;
+    padding: 7px;
+    .t-grid{
+        height: 100%; box-sizing: border-box; 
+        padding-top: 50px; margin-top: -50px;
+    }
+    .t-grid-toolbar{
+        height: 48px; background: #fff; margin: 0 0 2px 0;
+        line-height: 48px; padding: 0 13px;
+        .t-btn,.t-query{
+            height: 100%; width: 50%; float:left;
+            &>a, &>span{
+                margin-right: 5px;
+            }
+        }
+        .t-query{
+            text-align: right;
+        }
+    }
+    .t-cell-btn{
+        padding: 3px 5px; cursor: pointer; color: blue;
+        &:hover{
+            text-decoration: underline; color: red;
+        }
+    }
+}
 .t-toolbar{
     border-top: 1px solid #ddd; padding: 13px 0 0 0; text-align: right;
     button{
         margin: 0 0 0 13px;
+    }
+}
+.error{
+    height: 13px !important;
+    color: red;
+    font-size: 12px;
+    margin: 1px 0 7px 0;
+    margin-left: 80px;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #ddd;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #ddd;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #ddd;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #ddd;
+}
+.t-edit-window{
+    width: 100%; height: 100%; position: relative;
+    div.buttons{
+        border-top:1px solid #ddd;
+    }
+    .buttons {
+        text-align: right;
+        padding: 10px;
+    }
+    .buttons .l-btn {
+        width: 80px;
+        margin-left: 5px;
+    }
+    .t-form-item{
+        width: 50%; float:left; 
+        .textbox-label{
+            text-align: right !important;
+        }
+    }
+    .t-form-btn{
+        position: absolute; height: 80px; bottom: 0; left: 0; width: 100%;
     }
 }
