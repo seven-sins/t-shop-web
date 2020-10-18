@@ -100,15 +100,15 @@ export default {
   },
   methods: {
     load(){
-      let _this = this;
       let param = {
-        pageNum: _this.pageNumber,
-        pageSize: _this.pageSize,
-        themeName: _this.query.themeName
+        pageNum: this.pageNumber,
+        pageSize: this.pageSize
       }
+      param = Object.assign(param, this.query);
+      
       http.get(theme_get, param, response => {
-        _this.data = response.data;
-        _this.total = response.total;
+        this.data = response.data;
+        this.total = response.total;
       });
     },
     refresh(){

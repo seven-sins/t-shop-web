@@ -39,7 +39,12 @@
             textField="text"
             v-model="model.isDisabled"
             :data="staticData.isDisabled"
-          ></ComboBox>
+            :editable="false"
+          >
+            <Addon>
+              <span v-if="model.isDisabled!=null" class="textbox-icon icon-clear" title="清除" @click="model.isDisabled=null"></span>
+            </Addon>
+          </ComboBox>
           <div class="error">{{ getError("isDisabled") }}</div>
         </div>
       </Form>
@@ -84,7 +89,7 @@ export default {
       this.$refs.form.validate(error => {
         if(!error){
           if(this.model.id){
-            http.put(theme_post + "/" + this.model.id, this.model, data => {
+            http.put(theme_put + "/" + this.model.id, this.model, data => {
               this.$emit("load");
               this.$emit("cancelEdit");
             })

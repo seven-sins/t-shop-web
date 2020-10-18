@@ -8,12 +8,14 @@
       </div>
       <!-- 搜索栏 -->
       <div class="t-query">
+        <Label for="themeName">用户名:</Label>
         <TextBox
           inputId="userName"
           name="userName"
           v-model="query.userName"
         ></TextBox>
-        <LinkButton iconCls="icon-search"></LinkButton>
+        <LinkButton iconCls="icon-search" @click="load()"></LinkButton>
+        <LinkButton iconCls="fa fa-refresh" @click="refresh()"></LinkButton>
       </div>
     </div>
 
@@ -21,20 +23,14 @@
     <div class="t-grid">
       <DataGrid
         style="height: 100%;"
-        pagePosition="bottom"
-        :pagination="true"
         :data="data"
-        :total="total"
-        :pageNumber="pageNumber"
-        :pageSize="pageSize"
-        @pageChange="changePage($event)"
         >
 
         <GridColumn field="userName" title="用户名" width="130"></GridColumn>
         <GridColumn field="userCode" title="用户编码" width="130"></GridColumn>
         <GridColumn field="loginAccount" title="登录账号" width="130"></GridColumn>
         <GridColumn field="phone" title="手机号" width="130"></GridColumn>
-        <GridColumn field="idCard" title="证件号码" width="130"></GridColumn>
+        <GridColumn field="idCard" title="证件号码" width="180"></GridColumn>
         <GridColumn field="birthday" title="生日" width="130"></GridColumn>
         <GridColumn field="sex" title="性别" width="130">
           <template slot="body" slot-scope="scope">
@@ -62,6 +58,8 @@
         </GridColumn>
 
       </DataGrid>
+
+      <Pagination :total="total" :pageSize="pageSize" :pageNumber="pageNumber" @pageChange="changePage($event)"></Pagination>
     </div>
 
     <!-- 编辑窗口 -->
@@ -75,7 +73,7 @@
       closed
       :dialogStyle="{ width: '800px', height: '500px' }"
       >
-      <Edit :record="record" @cancelEdit="cancelEdit" />
+      <Edit :record="record" @cancelEdit="cancelEdit" @load="load" />
 
     </Dialog>
   </div>
@@ -84,7 +82,7 @@
 <script>
 import http from "@/utils/http";
 import Edit from "./Edit";
-import { user_get } from "@/utils/urls";
+import { user_get, user_delete } from "@/utils/urls";
 
 export default {
   name: "User",
@@ -109,28 +107,25 @@ export default {
   props: {},
   created() {},
   mounted() {
-    let data = [];
-    for (let i = 1; i <= this.total; i++) {
-      let amount = Math.floor(Math.random() * 1000);
-      let price = Math.floor(Math.random() * 1000);
-      data.push({
-        inv: "Inv No " + i,
-        userName: "Name " + i,
-        amount: amount,
-        price: price,
-        sex: 1,
-        isSysUser: 1,
-        cost: amount * price,
-        note: "Note " + i
-      });
-    }
-    this.data = data;
-    this.total = 100;
-    http.get(user_get, {}, data => {
-      console.log(data);
-    });
+    this.load();
   },
   methods: {
+    load(){
+      let param = {
+        pageNum: this.pageNumber,
+        pageSize: this.pageSize
+      }
+      param = Object.assign(param, this.query);
+
+      http.get(user_get, param, response => {
+        this.data = response.data;
+        this.total = response.total;
+      });
+    },
+    refresh(){
+      this.query = {};
+      this.load();
+    },
     cancelEdit(args) {
       this.$refs.dlg.close();
     },
@@ -145,13 +140,20 @@ export default {
       this.$refs.dlg.open();
     },
     remove(record) {
-      console.log(record);
+      s.confirm({
+        msg: "确定删除选中数据吗?",
+        confirm: () => {
+          http.delete(user_delete + "/" + record.id, {}, response => {
+            this.load();
+          })
+        }
+      })
     },
-    changePage(pageParam) {
-      this.pageNumber = pageParam.pageNumber;
-      this.pageSize = pageParam.pageSize;
-    },
-    handleOk() {}
+    changePage(page) {
+      this.pageNumber = page.pageNumber;
+      this.pageSize = page.pageSize;
+      this.load();
+    }
   }
 };
 </script>

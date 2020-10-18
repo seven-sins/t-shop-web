@@ -20,6 +20,10 @@ const routes = [
       {
         path: "/theme",
         component: resove => require(["@/views/global/theme/Theme.vue"], resove)
+      },
+      {
+        path: "/shop",
+        component: resove => require(["@/views/global/shop/Shop.vue"], resove)
       }
     ]
   }

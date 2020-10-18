@@ -43,6 +43,24 @@
         </div>
 
         <div class="t-form-item">
+          <Label for="shopId">店铺:</Label>
+          <ComboBox
+            inputId="shopId"
+            name="shopId"
+            valueField="id"
+            textField="shopName"
+            v-model="model.shopId"
+            :data="shopList"
+            :editable="false"
+            >
+            <Addon>
+              <span v-if="model.shopId!=null" class="textbox-icon icon-clear" title="清除" @click="model.shopId=null"></span>
+            </Addon>
+          </ComboBox>
+          <div class="error">{{ getError("cityId") }}</div>
+        </div>
+
+        <div class="t-form-item">
           <Label for="phone">电话:</Label>
           <TextBox
             inputId="phone"
@@ -85,12 +103,17 @@
             textField="text"
             v-model="model.sex"
             :data="staticData.sex"
-          ></ComboBox>
+            :editable="false"
+            >
+            <Addon>
+              <span v-if="model.sex!=null" class="textbox-icon icon-clear" title="清除" @click="model.sex=null"></span>
+            </Addon>
+          </ComboBox>
           <div class="error">{{ getError("sex") }}</div>
         </div>
 
         <div class="t-form-item">
-          <Label for="isSysUser">是否系统用户:</Label>
+          <Label for="isSysUser">系统用户:</Label>
           <ComboBox
             inputId="isSysUser"
             name="isSysUser"
@@ -98,7 +121,12 @@
             textField="text"
             v-model="model.isSysUser"
             :data="staticData.isSysUser"
-          ></ComboBox>
+            :editable="false"
+            >
+            <Addon>
+              <span v-if="model.isSysUser!=null" class="textbox-icon icon-clear" title="清除" @click="model.isSysUser=null"></span>
+            </Addon>
+          </ComboBox>
           <div class="error">{{ getError("isSysUser") }}</div>
         </div>
 
@@ -111,7 +139,12 @@
             textField="text"
             v-model="model.isDisabled"
             :data="staticData.isDisabled"
-          ></ComboBox>
+            :editable="false"
+            >
+            <Addon>
+              <span v-if="model.isDisabled!=null" class="textbox-icon icon-clear" title="清除" @click="model.isDisabled=null"></span>
+            </Addon>
+          </ComboBox>
           <div class="error">{{ getError("isDisabled") }}</div>
         </div>
       </Form>
@@ -128,7 +161,7 @@
 import http from "@/utils/http";
 import valid from "@/utils/validate";
 import staticData from "@/utils/staticData";
-import { user_post } from "@/utils/urls";
+import { user_post, user_put, shop_get } from "@/utils/urls";
 
 export default {
   name: "Edit",
@@ -142,11 +175,13 @@ export default {
         phone: valid({ length: 11, message: "请输入正确的手机号" }),
         idCard: valid({ min: 6, max: 18, message: "只允许输入6-18个字符" }),
         isSysUser: valid({ required: true }),
-        isDisabled: valid({ required: true })
+        isDisabled: valid({ required: true }),
+        shopId: valid({ required: true })
       },
       model: {},
       errors: {},
-      staticData: staticData
+      staticData: staticData,
+      shopList: []
     };
   },
   props: ["record"],
@@ -154,14 +189,28 @@ export default {
   mounted() {
     this.model = this.record;
     this.errors = {};
+    this.loadShop();
   },
   methods: {
+    loadShop(){
+      http.get(shop_get, {}, response => {
+        this.shopList = response.data;
+      })
+    },
     save() {
       this.$refs.form.validate(error => {
         if(!error){
-          http.post(user_post, this.model, data => {
-            console.log(0)
-          })
+          if(this.model.id){
+            http.put(user_put + "/" + this.model.id, this.model, data => {
+              this.$emit("load");
+              this.$emit("cancelEdit");
+            })
+          } else{
+            http.post(user_post, this.model, data => {
+              this.$emit("load");
+              this.$emit("cancelEdit");
+            })
+          }
         }
       });
     },

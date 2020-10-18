@@ -39,11 +39,12 @@ export default {
           state: "open",
           children: [
             {
-              text: "菜单配置",
-              url: "http://www.baidu.com",
+              text: "主题管理",
+              url: "/theme",
             },
             {
-              text: "Option2"
+              text: "店铺管理",
+              url: "/shop",
             },
             {
               text: "Option3",
@@ -63,7 +64,8 @@ export default {
           iconCls: "fa fa-user",
           children: [
             {
-              text: "Option4"
+              text: "用户管理",
+              url: "/user"
             },
             {
               text: "Option5"
@@ -82,7 +84,7 @@ export default {
       this.width = this.collapsed ? 50 : 200;
     },
     onItemClick(item) {
-      console.log(item);
+      this.$router.push(item.url);
     }
   }
 };
