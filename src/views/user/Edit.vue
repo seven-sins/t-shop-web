@@ -128,25 +128,19 @@
 import http from "@/utils/http";
 import valid from "@/utils/validate";
 import staticData from "@/utils/staticData";
-import { user_add_post } from "@/utils/urls";
+import { user_post } from "@/utils/urls";
 
 export default {
   name: "Edit",
   components: {},
   data() {
     return {
-      conf: {
-        labelCol: { span: 6 },
-        wrapperCol: { span: 12 },
-        dateFormat: "YYYY-MM-DD",
-        title: "编辑"
-      },
       rules: {
-        userCode: valid({ required: true, min: 6, max: 18, message: "只允许输入6-18个字符" }),
-        userName: valid({ required: true, min: 6, max: 18, message: "只允许输入6-18个字符" }),
-        loginAccount: valid({ required: true, min: 6, max: 18, message: "只允许输入6-18个字符" }),
+        userCode: valid({ required: true, max: 18, message: "输入不能超过18个字符" }),
+        userName: valid({ required: true, max: 18, message: "输入不能超过18个字符" }),
+        loginAccount: valid({ required: true, max: 18, message: "输入不能超过18个字符" }),
         phone: valid({ length: 11, message: "请输入正确的手机号" }),
-        idCard: valid({ required: true, min: 6, max: 18, message: "只允许输入6-18个字符" }),
+        idCard: valid({ min: 6, max: 18, message: "只允许输入6-18个字符" }),
         isSysUser: valid({ required: true }),
         isDisabled: valid({ required: true })
       },
@@ -160,12 +154,15 @@ export default {
   mounted() {
     this.model = this.record;
     this.errors = {};
-    console.log("mounted");
   },
   methods: {
     save() {
       this.$refs.form.validate(error => {
-        console.log(error);
+        if(!error){
+          http.post(user_post, this.model, data => {
+            console.log(0)
+          })
+        }
       });
     },
     getError(name) {

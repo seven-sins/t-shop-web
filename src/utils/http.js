@@ -1,32 +1,112 @@
 import axios from "axios";
 
+/**
+ * 拦截请求
+ */
+axios.interceptors.request.use( config => {
+    s.lock();
+    return config;
+})
+
+/**
+ * 拦截响应
+ */
+axios.interceptors.response.use( response => {
+    s.unlock();
+    return response.data;
+}, error => {
+    s.unlock();
+    // 不将错误信息返回到then
+    return new Promise(() => {}); 
+})
+
 const http = {
-    get: (url, arg = {}) => {
-        axios.get(url, arg).then(function(response){
-            console.log(response);
-        }).catch(function(error){
-            console.log(error);
+    get: (url, arg = {}, success, error) => {
+        let query = [], param = "";
+        if (typeof arg == "object"){
+            for (let key in arg) {
+                if(arg[key]){
+                    query[query.length] = encodeURI(key) + "=" + encodeURIComponent(arg[key]);
+                }
+            }
+            param = query.join('&');
+            if(param){
+                if(url.match(/\?/)){
+                    url += "&" + param;
+                } else{
+                    url += "?" + param;
+                }
+            }
+        }
+        axios.get(url, arg).then(response => {
+            if (response.code === 200) {
+                if(typeof success == "function"){
+                    success.call(this, response);
+                } else{
+                    s.alert({msg: "回调函数不存在", title: "错误信息"});
+                }
+            } else{
+                s.alert({msg: response.msg, title: "错误信息"});
+            }
+        }).catch(err => {
+            s.alert(err);
+            if(typeof error == "fucntion"){
+                error.call();
+            }
         })
     },
-    post: (url, arg = {}) => {
-        axios.post(url, arg).then(function(response){
-            console.log(response);
-        }).catch(function(error){
-            console.log(error);
+    post: (url, arg = {}, success, error) => {
+        axios.post(url, arg).then(response => {
+            if (response.code === 200) {
+                if(typeof success == "function"){
+                    success.call(this, response);
+                } else{
+                    s.alert({msg: "回调函数不存在", title: "错误信息"});
+                }
+            } else{
+                s.alert({msg: response.msg, title: "错误信息"});
+            }
+        }).catch(err => {
+            s.alert(err);
+            if(typeof error == "fucntion"){
+                error.call();
+            }
         })
     },
-    put: (url, arg = {}) => {
-        axios.put(url, arg).then(function(response){
-            console.log(response);
-        }).catch(function(error){
-            console.log(error);
+    put: (url, arg = {}, success, error) => {
+        axios.put(url, arg).then(response => {
+            if (response.code === 200) {
+                if(typeof success == "function"){
+                    success.call(this, response);
+                } else{
+                    s.alert({msg: "回调函数不存在", title: "错误信息"});
+                }
+            } else{
+                s.alert({msg: response.msg, title: "错误信息"});
+            }
+        }).catch(err => {
+            s.alert(err);
+            if(typeof error == "fucntion"){
+                error.call();
+            }
         })
     },
-    delete: (url) => {
-        axios.delete(url).then(function(response){
-            console.log(response);
-        }).catch(function(error){
-            console.log(error);
+    delete: (url, arg = {}, success, error) => {
+        axios.delete(url).then(response => {
+            if (response.code === 200) {
+                if(typeof success == "function"){
+                    success.call(this, response);
+                } else{
+                    s.alert({msg: "回调函数不存在", title: "错误信息"});
+                }
+            } else{
+                s.alert({msg: response.msg, title: "错误信息"});
+            }
+        }).catch(err => {
+            s.alert(err);
+            if(typeof error == "fucntion"){
+                error.call();
+            }
         })
     }
 }

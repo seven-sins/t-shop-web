@@ -11,7 +11,7 @@
         <TextBox
           inputId="userName"
           name="userName"
-          v-model="query.userName"
+          v-model="queryConf.userName"
         ></TextBox>
         <LinkButton iconCls="icon-search"></LinkButton>
       </div>
@@ -84,7 +84,7 @@
 <script>
 import http from "@/utils/http";
 import Edit from "./Edit";
-import { user_get } from "@/utils/urls";
+import { user_add_get, user_add_post } from "@/utils/urls";
 
 export default {
   name: "User",
@@ -96,14 +96,14 @@ export default {
       conf: {
         title: "编辑"
       },
-      query: {
+      queryConf: {
         userName: ""
       },
       record: {},     // 选中行数据
       data: [],       // 列表数据
       pageNumber: 1,  // 当前页
       pageSize: 20,   // 每页显示x条记录
-      total: 50       // 总记录数
+      total: 200      // 总记录数
     };
   },
   props: {},
@@ -125,10 +125,11 @@ export default {
       });
     }
     this.data = data;
-    this.total = 100;
-    http.get(user_get, {}, data => {
+
+    http.get(user_add_get, {}, data => {
       console.log(data);
     });
+
   },
   methods: {
     cancelEdit(args) {

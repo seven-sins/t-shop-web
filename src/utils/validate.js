@@ -18,10 +18,18 @@ const valid = args => {
                     }
                 }
                 if (args.max) {
-                    if (value.length >= args.min && value.length <= args.max) {
-                        isValid = true;
-                    } else {
-                        isValid = false;
+                    if (args.min){
+                        if (value.length >= args.min && value.length <= args.max) {
+                            isValid = true;
+                        } else {
+                            isValid = false;
+                        }
+                    } else{
+                        if (value.length <= args.max) {
+                            isValid = true;
+                        } else {
+                            isValid = false;
+                        }
                     }
                 }
                 if (args.length){

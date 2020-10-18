@@ -10,6 +10,8 @@ import "vx-easyui/dist/themes/default/easyui.css";
 import "vx-easyui/dist/themes/icon.css";
 import "vx-easyui/dist/themes/vue.css";
 import "./assets/fonts/css/font-awesome.min.css";
+import "./assets/seven/seven.js";
+import "./assets/seven/seven.css";
 
 import EasyUI from "vx-easyui";
 import locale from "vx-easyui/dist/locale/easyui-lang-zh_CN";
