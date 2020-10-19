@@ -25,6 +25,7 @@
 
 <script>
 import http from "@/utils/http";
+import { menu_get } from "@/utils/urls";
 
 export default {
   name: "Home",
@@ -32,55 +33,24 @@ export default {
   data() {
     return {
       collapsed: false,
-      menus: [
-        {
-          text: "店铺管理",
-          iconCls: "fa fa-cog",
-          state: "open",
-          children: [
-            {
-              text: "主题管理",
-              url: "/theme",
-            },
-            {
-              text: "店铺管理",
-              url: "/shop",
-            },
-            {
-              text: "Option3",
-              children: [
-                {
-                  text: "Option31"
-                },
-                {
-                  text: "Option32"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          text: "系统管理",
-          iconCls: "fa fa-user",
-          children: [
-            {
-              text: "用户管理",
-              url: "/user"
-            },
-            {
-              text: "角色管理",
-              url: "/role"
-            },
-            {
-              text: "菜单管理",
-              url: "/menu"
-            }
-          ]
-        }
-      ]
+      menus: []
     };
   },
+  mounted(){
+    this.load();
+  },
   methods: {
+    load() {
+      http.get(menu_get, {}, response => {
+        this.menus = response.data;
+        if(this.menus){
+          this.menus[0].state = "open";
+          for(let i = 0; i<this.menus.length; i++){
+            this.menus[i].iconCls = this.menus[i].icon;
+          }
+        }
+      });
+    },
     toggle() {
       this.collapsed = !this.collapsed;
       this.width = this.collapsed ? 50 : 200;
