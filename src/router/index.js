@@ -18,6 +18,14 @@ const routes = [
         component: resove => require(["@/views/user/User.vue"], resove)
       },
       {
+        path: "/role",
+        component: resove => require(["@/views/role/Role.vue"], resove)
+      },
+      {
+        path: "/menu",
+        component: resove => require(["@/views/menu/Menu.vue"], resove)
+      },
+      {
         path: "/theme",
         component: resove => require(["@/views/global/theme/Theme.vue"], resove)
       },

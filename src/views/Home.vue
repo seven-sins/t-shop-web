@@ -34,7 +34,7 @@ export default {
       collapsed: false,
       menus: [
         {
-          text: "系统设置",
+          text: "店铺管理",
           iconCls: "fa fa-cog",
           state: "open",
           children: [
@@ -60,7 +60,7 @@ export default {
           ]
         },
         {
-          text: "用户管理",
+          text: "系统管理",
           iconCls: "fa fa-user",
           children: [
             {
@@ -68,10 +68,12 @@ export default {
               url: "/user"
             },
             {
-              text: "Option5"
+              text: "角色管理",
+              url: "/role"
             },
             {
-              text: "Option6"
+              text: "菜单管理",
+              url: "/menu"
             }
           ]
         }

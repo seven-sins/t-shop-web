@@ -15,9 +15,14 @@ import "./assets/seven/seven.css";
 
 import EasyUI from "vx-easyui";
 import locale from "vx-easyui/dist/locale/easyui-lang-zh_CN";
+
+import moment from 'moment'
+
 Vue.use(EasyUI, {
   locale: locale
 });
+
+Vue.prototype.$moment = moment;
 
 Vue.use(VueCompositionApi);
 Vue.config.productionTip = false;

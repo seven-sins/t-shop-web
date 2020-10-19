@@ -57,7 +57,7 @@
               <span v-if="model.shopId!=null" class="textbox-icon icon-clear" title="清除" @click="model.shopId=null"></span>
             </Addon>
           </ComboBox>
-          <div class="error">{{ getError("cityId") }}</div>
+          <div class="error">{{ getError("shopId") }}</div>
         </div>
 
         <div class="t-form-item">
@@ -188,6 +188,9 @@ export default {
   created() { },
   mounted() {
     this.model = this.record;
+    if(this.model.birthday){
+      this.model.birthday = new Date(this.model.birthday);
+    }
     this.errors = {};
     this.loadShop();
   },
@@ -200,6 +203,9 @@ export default {
     save() {
       this.$refs.form.validate(error => {
         if(!error){
+          if(this.model.birthday){
+            this.model.birthday = this.$moment(this.model.birthday).format("YYYY-MM-DD");
+          }
           if(this.model.id){
             http.put(user_put + "/" + this.model.id, this.model, data => {
               this.$emit("load");

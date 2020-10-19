@@ -8,11 +8,11 @@
       </div>
       <!-- 搜索栏 -->
       <div class="t-query">
-        <Label for="userName">用户名:</Label>
+        <Label for="roleName">角色名称:</Label>
         <TextBox
-          inputId="userName"
-          name="userName"
-          v-model="query.userName"
+          inputId="roleName"
+          name="roleName"
+          v-model="query.roleName"
         ></TextBox>
         <LinkButton iconCls="icon-search" @click="load()"></LinkButton>
         <LinkButton iconCls="fa fa-refresh" @click="refresh()"></LinkButton>
@@ -26,30 +26,19 @@
         :data="data"
         >
 
-        <GridColumn field="userName" title="用户名" width="130"></GridColumn>
-        <GridColumn field="userCode" title="用户编码" width="130"></GridColumn>
-        <GridColumn field="shopName" title="店铺" width="300"></GridColumn>
-        <GridColumn field="loginAccount" title="登录账号" width="130"></GridColumn>
-        <GridColumn field="phone" title="手机号" width="130"></GridColumn>
-        <GridColumn field="idCard" title="证件号码" width="180"></GridColumn>
-        <GridColumn field="birthday" title="生日" width="130"></GridColumn>
-        <GridColumn field="sex" title="性别" width="130">
-          <template slot="body" slot-scope="scope">
-            {{ scope.row.sex == 1 ? '男': '女' }}
-          </template>
-        </GridColumn>
-        <GridColumn field="age" title="年龄" width="130"></GridColumn>
-        <GridColumn field="isSysUser" title="是否系统用户" width="130">
-            <template slot="body" slot-scope="scope">
-              {{ scope.row.isSysUser == 1 ? '是': '否' }}
-            </template>
-        </GridColumn>
+        <GridColumn field="roleName" title="角色名称" width="130"></GridColumn>
+        <GridColumn field="roleCode" title="角色编码" width="130"></GridColumn>
+        <GridColumn field="shopName" title="店铺" width="200"></GridColumn>
+        <GridColumn field="remark" title="备注" width="200"></GridColumn>
         <GridColumn field="isDisabled" title="是否停用" width="130">
             <template slot="body" slot-scope="scope">
               {{ scope.row.isDisabled == 1 ? '是': '否' }}
             </template>
         </GridColumn>
-
+        <GridColumn field="createdBy" title="创建人" width="130"></GridColumn>
+        <GridColumn field="createdTime" title="创建时间" width="160"></GridColumn>
+        <GridColumn field="updatedBy" title="修改人" width="130"></GridColumn>
+        <GridColumn field="updatedTime" title="修改时间" width="160"></GridColumn>
         <!-- 操作栏 -->
         <GridColumn align="center" width="100">
           <template slot="body" slot-scope="scope">
@@ -83,10 +72,10 @@
 <script>
 import http from "@/utils/http";
 import Edit from "./Edit";
-import { user_get, user_delete } from "@/utils/urls";
+import { role_get, role_delete } from "@/utils/urls";
 
 export default {
-  name: "User",
+  name: "Role",
   components: {
     Edit
   },
@@ -118,7 +107,7 @@ export default {
       }
       param = Object.assign(param, this.query);
 
-      http.get(user_get, param, response => {
+      http.get(role_get, param, response => {
         this.data = response.data;
         this.total = response.total;
       });
@@ -144,7 +133,7 @@ export default {
       s.confirm({
         msg: "确定删除选中数据吗?",
         confirm: () => {
-          http.delete(user_delete + "/" + record.id, {}, response => {
+          http.delete(role_delete + "/" + record.id, {}, response => {
             this.load();
           })
         }

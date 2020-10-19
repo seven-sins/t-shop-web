@@ -8,11 +8,11 @@
       </div>
       <!-- 搜索栏 -->
       <div class="t-query">
-        <Label for="userName">用户名:</Label>
+        <Label for="menuName">菜单名称:</Label>
         <TextBox
-          inputId="userName"
-          name="userName"
-          v-model="query.userName"
+          inputId="menuName"
+          name="menuName"
+          v-model="query.menuName"
         ></TextBox>
         <LinkButton iconCls="icon-search" @click="load()"></LinkButton>
         <LinkButton iconCls="fa fa-refresh" @click="refresh()"></LinkButton>
@@ -21,29 +21,28 @@
 
     <!-- 列表组件 -->
     <div class="t-grid">
-      <DataGrid
+      <TreeGrid 
         style="height: 100%;"
-        :data="data"
+        :data="data" 
+        idField="id" 
+        treeField="menuName"
         >
 
-        <GridColumn field="userName" title="用户名" width="130"></GridColumn>
-        <GridColumn field="userCode" title="用户编码" width="130"></GridColumn>
-        <GridColumn field="shopName" title="店铺" width="300"></GridColumn>
-        <GridColumn field="loginAccount" title="登录账号" width="130"></GridColumn>
-        <GridColumn field="phone" title="手机号" width="130"></GridColumn>
-        <GridColumn field="idCard" title="证件号码" width="180"></GridColumn>
-        <GridColumn field="birthday" title="生日" width="130"></GridColumn>
-        <GridColumn field="sex" title="性别" width="130">
+        <GridColumn field="menuName" title="菜单名称" width="130"></GridColumn>
+        <GridColumn field="url" title="URL" width="130"></GridColumn>
+        <GridColumn field="icon" title="图标" width="130"></GridColumn>
+        <GridColumn field="isMenu" title="是否菜单" width="130">
           <template slot="body" slot-scope="scope">
-            {{ scope.row.sex == 1 ? '男': '女' }}
-          </template>
-        </GridColumn>
-        <GridColumn field="age" title="年龄" width="130"></GridColumn>
-        <GridColumn field="isSysUser" title="是否系统用户" width="130">
-            <template slot="body" slot-scope="scope">
-              {{ scope.row.isSysUser == 1 ? '是': '否' }}
+              {{ scope.row.isMenu == 1 ? '是': '否' }}
             </template>
         </GridColumn>
+        <GridColumn field="isBtn" title="是否功能" width="130">
+          <template slot="body" slot-scope="scope">
+              {{ scope.row.isBtn == 1 ? '是': '否' }}
+            </template>
+        </GridColumn>
+        <GridColumn field="authCode" title="权限编码" width="130"></GridColumn>
+        
         <GridColumn field="isDisabled" title="是否停用" width="130">
             <template slot="body" slot-scope="scope">
               {{ scope.row.isDisabled == 1 ? '是': '否' }}
@@ -58,7 +57,7 @@
           </template>
         </GridColumn>
 
-      </DataGrid>
+      </TreeGrid>
 
       <Pagination :total="total" :pageSize="pageSize" :pageNumber="pageNumber" @pageChange="changePage($event)"></Pagination>
     </div>
@@ -74,7 +73,7 @@
       closed
       :dialogStyle="{ width: '800px', height: '500px' }"
       >
-      <Edit :record="record" @cancelEdit="cancelEdit" @load="load" />
+      <Edit :record="record" @cancelEdit="cancelEdit" @load="load" :menuData="data" />
 
     </Dialog>
   </div>
@@ -83,10 +82,10 @@
 <script>
 import http from "@/utils/http";
 import Edit from "./Edit";
-import { user_get, user_delete } from "@/utils/urls";
+import { menu_get, menu_delete } from "@/utils/urls";
 
 export default {
-  name: "User",
+  name: "Menu",
   components: {
     Edit
   },
@@ -96,7 +95,7 @@ export default {
         title: "编辑"
       },
       query: {
-        userName: ""
+        menuName: ""
       },
       record: {},     // 选中行数据
       data: [],       // 列表数据
@@ -118,7 +117,7 @@ export default {
       }
       param = Object.assign(param, this.query);
 
-      http.get(user_get, param, response => {
+      http.get(menu_get, param, response => {
         this.data = response.data;
         this.total = response.total;
       });
@@ -144,7 +143,7 @@ export default {
       s.confirm({
         msg: "确定删除选中数据吗?",
         confirm: () => {
-          http.delete(user_delete + "/" + record.id, {}, response => {
+          http.delete(menu_delete + "/" + record.id, {}, response => {
             this.load();
           })
         }
