@@ -10,20 +10,16 @@ const routes = [
     component: Home,
     children: [
       {
-        path: "/about",
-        component: resove => require(["@/views/About.vue"], resove)
-      },
-      {
         path: "/user",
-        component: resove => require(["@/views/user/User.vue"], resove)
+        component: resove => require(["@/views/sys/user/User.vue"], resove)
       },
       {
         path: "/role",
-        component: resove => require(["@/views/role/Role.vue"], resove)
+        component: resove => require(["@/views/sys/role/Role.vue"], resove)
       },
       {
         path: "/menu",
-        component: resove => require(["@/views/menu/Menu.vue"], resove)
+        component: resove => require(["@/views/sys/menu/Menu.vue"], resove)
       },
       {
         path: "/theme",
@@ -32,6 +28,10 @@ const routes = [
       {
         path: "/shop",
         component: resove => require(["@/views/global/shop/Shop.vue"], resove)
+      },
+      {
+        path: "/category",
+        component: resove => require(["@/views/goods/category/Category.vue"], resove)
       }
     ]
   }

@@ -30,6 +30,9 @@
             :editable="false"
             >
             <Tree slot="tree"></Tree>
+            <Addon>
+              <span v-if="model.parentId!=null" class="textbox-icon icon-clear" title="清除" @click="model.parentId=null"></span>
+            </Addon>
           </ComboTree>
           <div class="error">{{ getError("parentId") }}</div>
         </div>

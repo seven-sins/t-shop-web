@@ -24,3 +24,8 @@ export const menu_get = "/rest/admin/sysMenu";
 export const menu_post = "/rest/admin/sysMenu";
 export const menu_put = "/rest/admin/sysMenu";
 export const menu_delete = "/rest/admin/sysMenu";
+// 商品分类
+export const category_get = "/rest/admin/spGoodsCategory";
+export const category_post = "/rest/admin/spGoodsCategory";
+export const category_put = "/rest/admin/spGoodsCategory";
+export const category_delete = "/rest/admin/spGoodsCategory";
