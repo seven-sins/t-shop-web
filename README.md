@@ -22,3 +22,20 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+
+### 使用easyui
+
+```shell
+npm install vx-easyui --save
+```
+
+
+
+### 使用moment
+
+```shell
+cnpm i moment --save
+```
+

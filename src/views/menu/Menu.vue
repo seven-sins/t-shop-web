@@ -30,23 +30,27 @@
 
         <GridColumn field="menuName" title="菜单名称" width="130"></GridColumn>
         <GridColumn field="url" title="URL" width="130"></GridColumn>
-        <GridColumn field="icon" title="图标" width="130"></GridColumn>
+        <GridColumn field="icon" title="图标" width="130">
+          <template slot="body" slot-scope="scope">
+            <span :class="scope.row.icon"></span>
+          </template>
+        </GridColumn>
         <GridColumn field="isMenu" title="是否菜单" width="130">
           <template slot="body" slot-scope="scope">
-              {{ scope.row.isMenu == 1 ? '是': '否' }}
-            </template>
+            {{ scope.row.isMenu == 1 ? '是': '否' }}
+          </template>
         </GridColumn>
         <GridColumn field="isBtn" title="是否功能" width="130">
           <template slot="body" slot-scope="scope">
-              {{ scope.row.isBtn == 1 ? '是': '否' }}
-            </template>
+            {{ scope.row.isBtn == 1 ? '是': '否' }}
+          </template>
         </GridColumn>
         <GridColumn field="authCode" title="权限编码" width="130"></GridColumn>
-        
+        <GridColumn field="sort" title="排序" width="100"></GridColumn>
         <GridColumn field="isDisabled" title="是否停用" width="130">
-            <template slot="body" slot-scope="scope">
-              {{ scope.row.isDisabled == 1 ? '是': '否' }}
-            </template>
+          <template slot="body" slot-scope="scope">
+            {{ scope.row.isDisabled == 1 ? '是': '否' }}
+          </template>
         </GridColumn>
 
         <!-- 操作栏 -->

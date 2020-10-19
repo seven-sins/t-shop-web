@@ -22,7 +22,7 @@
         <div class="t-form-item">
           <Label for="parentId">上级菜单:</Label>
           <ComboTree 
-            :data="data" 
+            :data="menuData" 
             v-model="model.parentId"
             valueField="id"
             textField="text"
@@ -50,11 +50,24 @@
           <TextBox
             inputId="icon"
             name="icon"
-            :precision="1"
             v-model="model.icon"
             placeholder="请输入"
           ></TextBox>
           <div class="error">{{ getError("icon") }}</div>
+        </div>
+
+        <div class="t-form-item">
+          <Label for="sort">排序:</Label>
+          <NumberBox
+            inputId="sort"
+            name="sort"
+            :precision="0"
+            :min="-999999"
+            :max="999999"
+            v-model="model.sort"
+            placeholder="请输入"
+          ></NumberBox>
+          <div class="error">{{ getError("sort") }}</div>
         </div>
 
         <div class="t-form-item">
@@ -154,14 +167,12 @@ export default {
       },
       model: {},
       errors: {},
-      staticData: staticData,
-      data: []
+      staticData: staticData
     };
   },
   props: ["record", "menuData"],
   created() { },
   mounted() {
-    this.data = this.menuData;
     this.model = this.record;
     this.errors = {};
   },
@@ -169,6 +180,8 @@ export default {
     save() {
       this.$refs.form.validate(error => {
         if(!error){
+          this.model.parent = null;
+          this.model.children = null;
           if(this.model.id){
             http.put(menu_put + "/" + this.model.id, this.model, response => {
               this.$emit("load");
