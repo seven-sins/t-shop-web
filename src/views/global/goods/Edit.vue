@@ -9,20 +9,20 @@
         style="padding:20px 50px"
       >
         <div class="t-form-item">
-          <Label for="menuName">菜单名称:</Label>
+          <Label for="categoryName">分类名称:</Label>
           <TextBox
-            inputId="menuName"
-            name="menuName"
-            v-model="model.menuName"
+            inputId="categoryName"
+            name="categoryName"
+            v-model="model.categoryName"
             placeholder="请输入"
           ></TextBox>
-          <div class="error">{{ getError("menuName") }}</div>
+          <div class="error">{{ getError("categoryName") }}</div>
         </div>
 
         <div class="t-form-item">
-          <Label for="parentId">上级菜单:</Label>
+          <Label for="parentId">上级分类:</Label>
           <ComboTree 
-            :data="menuData" 
+            :data="categoryData" 
             v-model="model.parentId"
             valueField="id"
             textField="text"
@@ -38,25 +38,33 @@
         </div>
 
         <div class="t-form-item">
-          <Label for="url">URL:</Label>
+          <Label for="categoryCode">分类编码:</Label>
           <TextBox
-            inputId="url"
-            name="url"
-            v-model="model.url"
+            inputId="categoryCode"
+            name="categoryCode"
+            v-model="model.categoryCode"
             placeholder="请输入"
           ></TextBox>
-          <div class="error">{{ getError("url") }}</div>
+          <div class="error">{{ getError("categoryCode") }}</div>
         </div>
 
         <div class="t-form-item">
-          <Label for="icon">图标:</Label>
-          <TextBox
-            inputId="icon"
-            name="icon"
-            v-model="model.icon"
-            placeholder="请输入"
-          ></TextBox>
-          <div class="error">{{ getError("icon") }}</div>
+          <Label for="themeId">店铺主题:</Label>
+          <ComboBox
+            inputId="themeId"
+            name="themeId"
+            valueField="id"
+            textField="themeName"
+            v-model="model.themeId"
+            :data="themeList"
+            :disabled="model.parentId ? true : false "
+            :editable="false"
+            >
+            <Addon>
+              <span v-if="model.themeId!=null" class="textbox-icon icon-clear" title="清除" @click="model.themeId=null"></span>
+            </Addon>
+          </ComboBox>
+          <div class="error">{{ getError("themeId") }}</div>
         </div>
 
         <div class="t-form-item">
@@ -71,54 +79,6 @@
             placeholder="请输入"
           ></NumberBox>
           <div class="error">{{ getError("sort") }}</div>
-        </div>
-
-        <div class="t-form-item">
-          <Label for="authCode">权限编码:</Label>
-          <TextBox
-            inputId="authCode"
-            name="authCode"
-            :precision="1"
-            v-model="model.authCode"
-            placeholder="请输入"
-          ></TextBox>
-          <div class="error">{{ getError("authCode") }}</div>
-        </div>
-
-        <div class="t-form-item">
-          <Label for="isMenu">是否菜单:</Label>
-          <ComboBox
-            inputId="isMenu"
-            name="isMenu"
-            valueField="id"
-            textField="text"
-            v-model="model.isMenu"
-            :data="staticData.boolData"
-            :editable="false"
-            >
-            <Addon>
-              <span v-if="model.isMenu!=null" class="textbox-icon icon-clear" title="清除" @click="model.isMenu=null"></span>
-            </Addon>
-          </ComboBox>
-          <div class="error">{{ getError("isMenu") }}</div>
-        </div>
-
-        <div class="t-form-item">
-          <Label for="isBtn">是否功能:</Label>
-          <ComboBox
-            inputId="isBtn"
-            name="isBtn"
-            valueField="id"
-            textField="text"
-            v-model="model.isBtn"
-            :data="staticData.boolData"
-            :editable="false"
-            >
-            <Addon>
-              <span v-if="model.isBtn!=null" class="textbox-icon icon-clear" title="清除" @click="model.isBtn=null"></span>
-            </Addon>
-          </ComboBox>
-          <div class="error">{{ getError("isBtn") }}</div>
         </div>
 
         <div class="t-form-item">
@@ -138,6 +98,19 @@
           </ComboBox>
           <div class="error">{{ getError("isDisabled") }}</div>
         </div>
+
+        <div class="t-form-item">
+          <Label for="remark">备注:</Label>
+          <TextBox
+            inputId="remark"
+            name="remark"
+            v-model="model.remark"
+            placeholder="请输入"
+          ></TextBox>
+          <div class="error">{{ getError("remark") }}</div>
+        </div>
+
+
       </Form>
     </div>
 
@@ -152,7 +125,7 @@
 import http from "@/utils/http";
 import valid from "@/utils/validate";
 import staticData from "@/utils/staticData";
-import { menu_post, menu_put } from "@/utils/urls";
+import { category_post, category_put, theme_get } from "@/utils/urls";
 
 export default {
   name: "Edit",
@@ -160,33 +133,37 @@ export default {
   data() {
     return {
       rules: {
-        menuName: valid({ required: true, max: 18, message: "输入不能超过18个字符" }),
-        url: valid({ max: 50, message: "输入不能超过50个字符" }),
-        icon: valid({ max: 30, message: "输入不能超过30个字符" }),
-        isMenu: valid({ required: true }),
-        isBtn: valid({ required: true }),
-        authCode: valid({ max: 30, message: "输入不能超过30个字符" }),
+        categoryName: valid({ required: true, max: 18, message: "输入不能超过18个字符" }),
+        categoryCode: valid({ required: true, max: 30, message: "输入不能超过30个字符" }),
+        remark: valid({ max: 100, message: "输入不能超过100个字符" }),
         isDisabled: valid({ required: true })
       },
       model: {},
       errors: {},
-      staticData: staticData
+      staticData: staticData,
+      themeList: []
     };
   },
-  props: ["record", "menuData"],
+  props: ["record", "categoryData"],
   created() { },
   mounted() {
     this.model = this.record;
     this.errors = {};
+    this.loadTheme();
   },
   methods: {
+    loadTheme() {
+      http.get(theme_get, {}, response => {
+        this.themeList = response.data;
+      })
+    },
     save() {
       this.$refs.form.validate(error => {
         if(!error){
           this.model.parent = null;
           this.model.children = null;
           if(this.model.id){
-            http.put(menu_put + "/" + this.model.id, this.model, response => {
+            http.put(category_put + "/" + this.model.id, this.model, response => {
               this.$emit("load");
               this.$emit("cancelEdit");
             }, error => {
@@ -194,7 +171,7 @@ export default {
               this.$emit("cancelEdit");
             })
           } else{
-            http.post(menu_post, this.model, response => {
+            http.post(category_post, this.model, response => {
               this.$emit("load");
               this.$emit("cancelEdit");
             })
@@ -209,6 +186,13 @@ export default {
     },
     cancel() {
       this.$emit("cancelEdit");
+    }
+  },
+  watch: {
+    'model.parentId': function(newVal, oldVal){
+      if(newVal){
+        this.model.themeId = null;
+      }
     }
   }
 };

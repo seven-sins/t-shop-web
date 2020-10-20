@@ -46,11 +46,16 @@ const http = {
                     s.alert({msg: "回调函数不存在", title: "错误信息"});
                 }
             } else{
-                s.alert({msg: response.msg, title: "错误信息"});
+                setTimeout(() => {
+                    s.alert({msg: response.msg, title: "错误信息"});
+                }, 60)
+                if(typeof error == "function"){
+                    error.call();
+                }
             }
         }).catch(err => {
             s.alert(err);
-            if(typeof error == "fucntion"){
+            if(typeof error == "function"){
                 error.call();
             }
         })
@@ -64,11 +69,16 @@ const http = {
                     s.alert({msg: "回调函数不存在", title: "错误信息"});
                 }
             } else{
-                s.alert({msg: response.msg, title: "错误信息"});
+                setTimeout(() => {
+                    s.alert({msg: response.msg, title: "错误信息"});
+                }, 60);
+                if(typeof error == "function"){
+                    error.call();
+                }
             }
         }).catch(err => {
             s.alert(err);
-            if(typeof error == "fucntion"){
+            if(typeof error == "function"){
                 error.call();
             }
         })
@@ -82,11 +92,16 @@ const http = {
                     s.alert({msg: "回调函数不存在", title: "错误信息"});
                 }
             } else{
-                s.alert({msg: response.msg, title: "错误信息"});
+                setTimeout(() => {
+                    s.alert({msg: response.msg, title: "错误信息"});
+                }, 60);
+                if(typeof error == "function"){
+                    error.call();
+                }
             }
         }).catch(err => {
             s.alert(err);
-            if(typeof error == "fucntion"){
+            if(typeof error == "function"){
                 error.call();
             }
         })
@@ -100,11 +115,16 @@ const http = {
                     s.alert({msg: "回调函数不存在", title: "错误信息"});
                 }
             } else{
-                s.alert({msg: response.msg, title: "错误信息"});
+                setTimeout(() => {
+                    s.alert({msg: response.msg, title: "错误信息"});
+                }, 60);
+                if(typeof error == "function"){
+                    error.call();
+                }
             }
         }).catch(err => {
             s.alert(err);
-            if(typeof error == "fucntion"){
+            if(typeof error == "function"){
                 error.call();
             }
         })

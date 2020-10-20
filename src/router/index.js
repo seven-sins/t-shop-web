@@ -31,7 +31,7 @@ const routes = [
       },
       {
         path: "/category",
-        component: resove => require(["@/views/goods/category/Category.vue"], resove)
+        component: resove => require(["@/views/global/goods/Category.vue"], resove)
       }
     ]
   }
