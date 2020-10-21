@@ -29,3 +29,10 @@ export const category_get = "/rest/admin/gbCategory";
 export const category_post = "/rest/admin/gbCategory";
 export const category_put = "/rest/admin/gbCategory";
 export const category_delete = "/rest/admin/gbCategory";
+// 用户设置角色
+export const user_role_get = "/rest/admin/sysUserRole";
+export const user_role_delete = "/rest/admin/sysUserRole";
+export const user_role_post = "/rest/admin/sysUserRole/saveBatch";
+// 角色设置菜单权限
+export const role_menu_get = "/rest/admin/sysMenu";
+export const role_menu_post = "/rest/admin/sysRoleMenu/saveBatch";

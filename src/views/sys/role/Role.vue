@@ -40,9 +40,10 @@
         <GridColumn field="updatedBy" title="修改人" width="130"></GridColumn>
         <GridColumn field="updatedTime" title="修改时间" width="160"></GridColumn>
         <!-- 操作栏 -->
-        <GridColumn align="center" width="100">
+        <GridColumn align="center" width="160">
           <template slot="body" slot-scope="scope">
             <a class="t-cell-btn" @click="edit(scope.row)">编辑</a>
+            <a class="t-cell-btn" @click="setRoleMenu(scope.row)">设置权限</a>
             <a class="t-cell-btn" @click="remove(scope.row)">删除</a>
           </template>
         </GridColumn>
@@ -64,20 +65,37 @@
       :dialogStyle="{ width: '800px', height: '500px' }"
       >
       <Edit :record="record" @cancelEdit="cancelEdit" @load="load" />
-
     </Dialog>
+
+    <!-- 设置角色权限 -->
+    <Dialog
+      ref="roleMenuDlg"
+      bodyCls="f-column t-popup-window"
+      borderType="none"
+      :title="conf.title"
+      :modal="true"
+      :draggable="true"
+      closed
+      :dialogStyle="{ width: '800px', height: '500px' }"
+      >
+      <RoleMenu :record="record" @cancelRoleMenu="cancelRoleMenu" @load="load" />
+    </Dialog>
+
+
   </div>
 </template>
 
 <script>
 import http from "@/utils/http";
 import Edit from "./Edit";
+import RoleMenu from "./RoleMenu";
 import { role_get, role_delete } from "@/utils/urls";
 
 export default {
   name: "Role",
   components: {
-    Edit
+    Edit,
+    RoleMenu
   },
   data() {
     return {
@@ -119,6 +137,10 @@ export default {
     cancelEdit(args) {
       this.$refs.dlg.close();
     },
+    cancelRoleMenu(args) {
+      this.$refs.roleMenuDlg.close();
+      s.msg({msg: "操作成功", second: 300});
+    },
     add(){
       this.record = {};
       this.conf.title = "新增";
@@ -128,6 +150,12 @@ export default {
       this.record = record;
       this.conf.title = "编辑";
       this.$refs.dlg.open();
+    },
+    setRoleMenu(record){
+      // 设置角色权限
+      this.record = record;
+      this.conf.title = "设置角色权限";
+      this.$refs.roleMenuDlg.open();
     },
     remove(record) {
       s.confirm({

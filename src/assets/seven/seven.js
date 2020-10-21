@@ -2501,6 +2501,7 @@
                 msg: "",
                 fontSize: '13px',
                 background: "orange",
+                second: 2,
                 shadow: false
             };
             seven.initialize(settings, args);
@@ -2508,6 +2509,8 @@
             if (typeof settings.second != 'undefined') {
                 settings.second = parseInt(settings.second);
             }
+
+            settings.second = settings.second/100;
 
             var obj = document.createElement('div');
             obj.className = 't-msg-container';
@@ -2539,7 +2542,7 @@
             if (typeof settings.second == 'number') {
                 obj.onclick = null;
                 var timer = setInterval(function () {
-                    if (settings.second < 1) {
+                    if (settings.second <= 1) {
                         clearInterval(timer);
                         if (settings.shadow === true) seven.unlock();
                         if (typeof settings.callback == 'function') {
@@ -2548,8 +2551,7 @@
                         seven(obj).remove();
                     }
                     settings.second--;
-
-                }, 1000);
+                }, 100);
             }
         },
         open: function (args) {

@@ -51,9 +51,10 @@
         </GridColumn>
 
         <!-- 操作栏 -->
-        <GridColumn align="center" width="100">
+        <GridColumn align="center" width="200">
           <template slot="body" slot-scope="scope">
             <a class="t-cell-btn" @click="edit(scope.row)">编辑</a>
+            <a class="t-cell-btn" @click="setUserRole(scope.row)">设置角色</a>
             <a class="t-cell-btn" @click="remove(scope.row)">删除</a>
           </template>
         </GridColumn>
@@ -77,18 +78,37 @@
       <Edit :record="record" @cancelEdit="cancelEdit" @load="load" />
 
     </Dialog>
+
+    <!-- 设置角色 -->
+    <Dialog
+      ref="userRoleDlg"
+      bodyCls="f-column t-popup-window"
+      borderType="none"
+      :title="conf.title"
+      :modal="true"
+      :draggable="true"
+      closed
+      :dialogStyle="{ width: '800px', height: '500px' }"
+      >
+      <UserRole :record="record" @cancelUserRole="cancelUserRole" @load="load" />
+
+    </Dialog>
+
+
   </div>
 </template>
 
 <script>
 import http from "@/utils/http";
 import Edit from "./Edit";
+import UserRole from "./UserRole";
 import { user_get, user_delete } from "@/utils/urls";
 
 export default {
   name: "User",
   components: {
-    Edit
+    Edit,
+    UserRole
   },
   data() {
     return {
@@ -130,6 +150,10 @@ export default {
     cancelEdit(args) {
       this.$refs.dlg.close();
     },
+    cancelUserRole(args) {
+      this.$refs.userRoleDlg.close();
+      s.msg({msg: "操作成功", second: 300});
+    },
     add(){
       this.record = {};
       this.conf.title = "新增";
@@ -139,6 +163,12 @@ export default {
       this.record = record;
       this.conf.title = "编辑";
       this.$refs.dlg.open();
+    },
+    setUserRole(record){
+      // 设置角色
+      this.record = record;
+      this.conf.title = "设置角色";
+      this.$refs.userRoleDlg.open();
     },
     remove(record) {
       s.confirm({
